@@ -1,28 +1,36 @@
-import {useEffect, useRef, useState, memo} from "react"
+import {useEffect, useRef, useState, memo, forwardRef} from "react"
 import regexConstant from "../../constant/regexConstant"
 import checkNationalCode from "../../helpers/checkNationalCode"
 import numberCorrection from "../../seyed-modules/helpers/numberCorrection"
 import inputKeyDownEnter from "../../helpers/inputKeyDownEnter"
 import AuthActions from "../../context/auth/AuthActions"
-import inputConstant from "../../constant/inputConstant"
+import validationConstant from "../../constant/validationConstant"
 import MyLoader from "../../seyed-modules/components/MyLoader"
 import CheckSvg from "../../seyed-modules/media/svg/CheckSvg"
 import CloseSvg from "../../seyed-modules/media/svg/CloseSvg"
 import {REQUEST_CANCEL} from "../../seyed-modules/constant/toastTypes"
 import onScroll from "../../seyed-modules/helpers/onScroll"
+import showPhoneNumber from "../../seyed-modules/helpers/showPhoneNumber"
+import ShowValidationError from "./ShowValidationError"
+import fixInputScroll from "../../helpers/fixInputScroll"
+import GetTextConstant from "../../seyed-modules/hooks/GetTextConstant"
 
-function Input({
-                   className, name, autoComplete = "on", focusOnMountDesktop, label, type = "text", validation, placeholder = "", onIconClick, disableOnScroll,
-                   defaultValue, onChange, disabled, ltr, ltrPlaceHolder, Icon, required, onSubmit, onSubmitDisable, disableSubmit, labelClassName, iconClassName, noSpace,
-               })
+const Input = forwardRef(({
+                              className, name, autoComplete = "off", focusOnMountDesktop, label, type = "text", validation, placeholder = "", onIconClick, disableOnScroll, fixScroll, isArea,
+                              defaultValue, onChange, disabled, ltr, ltrPlaceHolder, Icon, required, onSubmit, onSubmitDisable, disableSubmit, labelClassName, iconClassName, noSpace,
+                          }, ref) =>
 {
+    const Tag = isArea ? "textarea" : "input"
+    const {language} = GetTextConstant()
+    const tempRef = useRef(null)
+    const inputRef = ref || tempRef
     const [validationLoading, setValidationLoading] = useState("")
     const [value, setValue] = useState("")
     const [error, setError] = useState("")
-    const inputRef = useRef(null)
     const validationTimer = useRef(null)
     const validationIconTimer = useRef(null)
     const validationCancel = useRef(null)
+    const timerFixScroll = useRef(null)
 
     useEffect(() =>
     {
@@ -57,6 +65,7 @@ function Input({
             scrollListener?.()
             clearTimeout(validationTimer.current)
             clearTimeout(validationIconTimer.current)
+            clearTimeout(timerFixScroll.current)
         }
         // eslint-disable-next-line
     }, [])
@@ -72,7 +81,7 @@ function Input({
         {
             if (validation === "email")
             {
-                const value = numberCorrection(e.target.value.trim())
+                const value = numberCorrection(e.target.value.replace(/ /g, ""))
                 setValue(value)
                 setValidationLoading("")
                 clearTimeout(validationIconTimer.current)
@@ -81,7 +90,7 @@ function Input({
                 {
                     if (value !== defaultValue)
                     {
-                        onChange({name, value: value || required ? null : ""})
+                        onChange({name, value: value || required ? null : "", reset: resetInput})
                         if (validationCancel?.current?.cancel) validationCancel.current.cancel(REQUEST_CANCEL)
                         validationTimer.current = setTimeout(() =>
                         {
@@ -90,7 +99,7 @@ function Input({
                                 .then(() =>
                                 {
                                     setValidationLoading("NOK")
-                                    setError(inputConstant.repeatedEmail)
+                                    setError(validationConstant[language].repeatedEmail)
                                 })
                                 .catch(err =>
                                 {
@@ -98,48 +107,48 @@ function Input({
                                     {
                                         setValidationLoading("OK")
                                         validationIconTimer.current = setTimeout(() => setValidationLoading(""), 1000)
-                                        onChange({name, value})
+                                        onChange({name, value, reset: resetInput})
                                     }
                                     else setValidationLoading("NOK")
                                 })
                         }, 250)
                     }
-                    else onChange({name, value})
+                    else onChange({name, value, reset: resetInput})
                 }
                 else
                 {
-                    onChange({name, value: value || required ? null : ""})
+                    onChange({name, value: value || required ? null : "", reset: resetInput})
                     checkErrTimer()
                 }
             }
             else if (validation === "national_code")
             {
-                const value = numberCorrection(e.target.value.trim().slice(0, 10))
+                const value = numberCorrection(e.target.value.replace(/ /g, "").slice(0, 10))
                 if (!isNaN(value) && value.length <= 10) setValue(value)
-                if (checkNationalCode(value)) onChange({name, value})
-                else onChange({name, value: value || required ? null : ""})
+                if (checkNationalCode(value)) onChange({name, value, reset: resetInput})
+                else onChange({name, value: value || required ? null : "", reset: resetInput})
                 checkErrTimer()
             }
             else if (validation === "phone")
             {
-                const value = numberCorrection(e.target.value.trim().slice(0, 11))
+                const value = numberCorrection(showPhoneNumber.fixToNumber(e.target.value))
                 if (!isNaN(value) && value.length <= 11) setValue(value)
-                if (regexConstant.PHONE_REGEX.test(value)) onChange({name, value})
-                else onChange({name, value: value || required ? null : ""})
+                if (regexConstant.PHONE_REGEX.test(value)) onChange({name, value, reset: resetInput})
+                else onChange({name, value: value || required ? null : "", reset: resetInput})
                 checkErrTimer()
             }
             else if (validation === "url")
             {
-                const value = numberCorrection(e.target.value.trim())
+                const value = numberCorrection(e.target.value.replace(/ /g, ""))
                 setValue(value)
-                if (regexConstant.URL_REGEX.test(value)) onChange({name, value})
-                else onChange({name, value: value || required ? null : ""})
+                if (regexConstant.URL_REGEX.test(value)) onChange({name, value, reset: resetInput})
+                else onChange({name, value: value || required ? null : "", reset: resetInput})
                 checkErrTimer()
             }
         }
         else
         {
-            const {value} = e.target
+            const value = numberCorrection(e.target.value)
             setValue(value)
             onChange({name, value: value.trim() ? value.trim() : required ? null : "", reset: resetInput})
             checkErrTimer()
@@ -155,11 +164,13 @@ function Input({
 
     function onInputBlur()
     {
-        const tempValue = inputRef.current.value.trim()
+        clearTimeout(timerFixScroll.current)
+        let tempValue = inputRef.current.value.trim()
+        if (validation === "phone") tempValue = showPhoneNumber.fixToNumber(tempValue)
         let tempErr = ""
         if (!tempValue)
         {
-            if (required) tempErr = inputConstant.requiredField
+            if (required) tempErr = validationConstant[language].requiredField
         }
         else
         {
@@ -167,44 +178,56 @@ function Input({
             {
                 if (validation === "email")
                 {
-                    if (!regexConstant.EMAIL_REGEX.test(tempValue)) tempErr = inputConstant.unValidEmail
+                    if (!regexConstant.EMAIL_REGEX.test(tempValue)) tempErr = validationConstant[language].unValidEmail
                 }
                 else if (validation === "national_code")
                 {
-                    if (!checkNationalCode(tempValue)) tempErr = inputConstant.unValidNationalCode
+                    if (!checkNationalCode(tempValue)) tempErr = validationConstant[language].unValidNationalCode
                 }
                 else if (validation === "phone")
                 {
-                    if (!regexConstant.PHONE_REGEX.test(tempValue)) tempErr = inputConstant.unValidPhone
+                    if (!regexConstant.PHONE_REGEX.test(tempValue)) tempErr = validationConstant[language].unValidPhone
                 }
                 else if (validation === "url")
                 {
-                    if (!regexConstant.URL_REGEX.test(tempValue)) tempErr = inputConstant.unValidUrl
+                    if (!regexConstant.URL_REGEX.test(tempValue)) tempErr = validationConstant[language].unValidUrl
                 }
             }
         }
         setError(tempErr)
     }
 
+    function onFocusClick()
+    {
+        if (fixScroll)
+        {
+            clearTimeout(timerFixScroll.current)
+            timerFixScroll.current = fixInputScroll({inputRef})
+        }
+    }
+
     return (
         <label className={`input-label ${className}`}>
             <p className={`input-label-text ${labelClassName}`}>{label}</p>
             <div className="input-label-relative">
-                <input autoComplete={autoComplete}
-                       name={name}
-                       className={`input-main ${ltrPlaceHolder ? "ltr-placeholder" : ""} ${Icon || (validation && value) ? "have-icon" : ""} ${error ? "err" : ""} ${ltr ? "ltr" : ""}`}
-                       disabled={disabled}
-                       ref={inputRef}
-                       type={type}
-                       placeholder={placeholder}
-                       value={value}
-                       onChange={onInputChange}
-                       onBlur={onInputBlur}
-                       onKeyDown={onSubmit || onSubmitDisable ? inputKeyDownEnter({onSubmit, onSubmitDisable, disableSubmit, checkValidation: onInputBlur}) : undefined}
+                <Tag autoComplete={autoComplete}
+                     name={name}
+                     className={`input-main ${isArea ? "area" : ""} ${ltrPlaceHolder ? "ltr-placeholder" : ""} ${Icon || (validation === "email" && value) ? "have-icon" : ""} ${error ? "err" : ""} ${ltr ? "ltr" : ""}`}
+                     rows={5}
+                     disabled={disabled}
+                     ref={inputRef}
+                     type={type}
+                     placeholder={placeholder}
+                     value={validation === "phone" ? showPhoneNumber.showPhone(value) : value}
+                     onChange={onInputChange}
+                     onBlur={onInputBlur}
+                     onKeyDown={onSubmit || onSubmitDisable ? inputKeyDownEnter({onSubmit, onSubmitDisable, disableSubmit, checkValidation: onInputBlur}) : undefined}
+                     onFocus={onFocusClick}
+                     onClick={onFocusClick}
                 />
                 {
                     Icon ?
-                        <Icon className={`input-icon icon ${iconClassName} ${ltr ? "" : "rtl"}`} onClick={onIconClick}/>
+                        <Icon className={`input-icon ${iconClassName} ${ltr ? "" : "rtl"}`} onClick={onIconClick}/>
                         :
                         <>
                             <MyLoader width={24} className={`input-icon validation ${iconClassName} ${validationLoading === "loading" ? "show" : ""} ${ltr ? "" : "rtl"}`}/>
@@ -213,9 +236,9 @@ function Input({
                         </>
                 }
             </div>
-            <div className={`input-label-err ${noSpace ? "no-space" : ""} ${error ? "show" : ""}`}>{error}</div>
+            <ShowValidationError error={error} noSpace={noSpace}/>
         </label>
     )
-}
+})
 
 export default memo(Input)

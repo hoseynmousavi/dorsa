@@ -1,0 +1,24 @@
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(var(--full-height) - var(--nav-height));
+  padding: var(--mobile-first-solid-padding);
+  margin-bottom: var(--nav-height);
+}
+
+.login-page-box {
+  width: 100%;
+  text-align: center;
+}
+
+.login-page-title {
+  font-size: var(--huge-font);
+}
+
+.login-page-desc {
+  white-space: nowrap;
+  font-size: var(--large-font);
+  font-family: "my-font", serif;
+  margin: 24px 0 72px;
+}

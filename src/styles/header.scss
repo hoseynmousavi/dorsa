@@ -1,0 +1,42 @@
+.header {
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--first-background-color);
+  padding: 0 var(--mobile-second-solid-padding);
+  border-radius: 0 0 var(--forth-radius) var(--forth-radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-logo {
+  font-size: 20px;
+  font-family: "my-font-bold", serif;
+  color: var(--first-color);
+}
+
+.header-second {
+  display: flex;
+  align-items: center;
+}
+
+.header-second-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.second {
+    margin-inline-end: -6px;
+  }
+}
+
+.header-second-btn-icon {
+  width: 28px;
+  height: 28px;
+}

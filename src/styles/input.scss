@@ -2,6 +2,7 @@
   display: block;
   width: 100%;
   margin-bottom: 25px;
+  text-align: start;
 }
 
 .input-label-relative {
@@ -9,54 +10,39 @@
 }
 
 .input-label-text {
+  margin-inline-start: 14px;
   font-size: var(--title-font);
-  font-family: my-font-bold, serif;
-}
-
-.input-label-err {
-  color: var(--toast-fail-text);
-  overflow: hidden;
-  height: 0;
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  transition: height var(--first-transition), opacity var(--first-transition);
-
-  &.no-space {
-    position: absolute;
-  }
-
-  &.show {
-    opacity: 1;
-    height: 35px;
-  }
+  font-family: "my-font-demibold", serif;
 }
 
 .input-main {
-  font-size: var(--title-font);
-  font-family: my-font-bold, serif;
+  background-color: var(--first-background-color);
+  font-size: var(--large-font);
+  font-family: "my-font-demibold", serif;
   margin-top: 10px;
   height: var(--btn-input-height);
   width: 100%;
   padding: 0 12px;
   border: 2px solid var(--first-border-color);
-  border-radius: var(--first-radius);
-  transition: border ease 0.2s;
+  border-radius: var(--second-radius);
+  transition: border ease 0.2s, background-color ease 0.2s;
+
+  &.area {
+    padding: 12px;
+    height: auto;
+    resize: none;
+  }
 
   &.have-icon {
-    padding: 0 12px 0 48px;
+    padding-right: 48px;
   }
 
   &.ltr {
     direction: ltr;
-
-    &.have-icon {
-      padding: 0 48px 0 12px;
-    }
   }
 
   &:disabled {
-    background-color: var(--second-background-color);
+    background-color: var(--disable-bg-color);
   }
 
   &:focus {
@@ -64,16 +50,16 @@
   }
 
   &.err {
-    border: 2px solid var(--toast-fail-text);
+    border: 2px solid var(--danger-color);
   }
 
   &::placeholder {
-    font-family: my-font, serif;
-    color: var(--second-text-color);
+    font-family: "my-font-demibold", serif;
+    color: var(--first-border-color);
   }
 
   &:placeholder-shown {
-    direction: rtl;
+    direction: var(--language-direction);
   }
 
   &.ltr-placeholder {
@@ -92,14 +78,8 @@
   pointer-events: none;
 
   &.rtl {
-    right: initial;
-    left: 12px;
-  }
-
-  &.icon {
-    path {
-      stroke: var(--toast-success-text);
-    }
+    inset-inline-start: initial;
+    inset-inline-end: 12px;
   }
 
   &.validation {

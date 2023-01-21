@@ -1,5 +1,30 @@
 @import "../seyed-modules/styles/index";
 
 @import "animations";
+@import "button";
+@import "validation-error";
 @import "input";
+@import "navbar";
+@import "header";
 @import "my-player";
+@import "login";
+@import "home";
+@import "video-cart";
+
+@font-face {
+  font-family: "my-font";
+  src: url("../media/fonts/Estedad-FD-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "my-font-demibold";
+  src: url("../media/fonts/Estedad-FD-SemiBold.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "my-font-bold";
+  src: url("../media/fonts/Estedad-FD-Bold.woff2") format("woff2");
+  font-display: swap;
+}

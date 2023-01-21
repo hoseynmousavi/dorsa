@@ -17,6 +17,7 @@ function goFullScreen({playerRef, videoCont})
         videoCont.current.style.width = "100%"
         videoCont.current.style.height = "100%"
         videoCont.current.style.backgroundColor = "var(--solid-dark)"
+        videoCont.current.style.borderRadius = "0"
 
         setTimeout(() =>
         {
@@ -25,7 +26,7 @@ function goFullScreen({playerRef, videoCont})
             else if (videoCont.current.msRequestFullscreen) videoCont.current.msRequestFullscreen()
             if (window?.screen?.orientation)
             {
-                window.screen.orientation.lock("landscape")
+                window?.screen?.orientation.lock?.("landscape")
                     .then(() => console.log("Locked"))
                     .catch(error => console.log(error))
             }
