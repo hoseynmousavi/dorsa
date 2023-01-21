@@ -51,6 +51,7 @@ sed -i "s~SOLID_DARK~$REACT_APP_SOLID_DARK~g" build/index.html
 sed -i "s~FIRST_TEXT_COLOR~$REACT_APP_FIRST_TEXT_COLOR~g" build/index.html
 sed -i "s~SECOND_TEXT_COLOR~$REACT_APP_SECOND_TEXT_COLOR~g" build/index.html
 sed -i "s~THIRD_TEXT_COLOR~$REACT_APP_THIRD_TEXT_COLOR~g" build/index.html
+sed -i "s~FORTH_TEXT_COLOR~$REACT_APP_FORTH_TEXT_COLOR~g" build/index.html
 sed -i "s~FIRST_BORDER_COLOR~$REACT_APP_FIRST_BORDER_COLOR~g" build/index.html
 sed -i "s~FIRST_SHADOW~$REACT_APP_FIRST_SHADOW~g" build/index.html
 sed -i "s~SECOND_SHADOW~$REACT_APP_SECOND_SHADOW~g" build/index.html

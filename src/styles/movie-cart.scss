@@ -1,0 +1,47 @@
+.movie-title {
+  font-size: var(--big-font);
+  font-family: "my-font-bold", serif;
+}
+
+.movie-cart {
+  display: inline-block;
+  vertical-align: top;
+  width: 170px;
+  padding: 16px;
+  border-radius: var(--third-radius);
+  box-shadow: 0 4px 11px rgba(60, 40, 104, 0.1), inset 0px -4px 11px rgba(60, 40, 104, 0.05);
+  background-color: var(--box-color);
+  margin-inline-end: 16px;
+
+  &:last-child {
+    margin-inline-end: 0;
+  }
+}
+
+.movie-cart-img {
+  width: 100%;
+  border-radius: var(--second-radius);
+
+  img {
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+  }
+}
+
+.movie-cart-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 8px;
+  font-size: var(--title-font);
+  font-family: "my-font-demibold", serif;
+}
+
+.movie-list {
+  padding: var(--mobile-second-solid-padding);
+  margin-inline-start: calc(-1 * var(--mobile-second-solid-padding));
+  width: calc(100% + 2 * var(--mobile-second-solid-padding));
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}

@@ -1,7 +1,7 @@
 import mock from "../../constant/mock"
-import VideoCart from "../components/VideoCart"
 import {useState} from "react"
 import Header from "../containers/Header"
+import FlexComponent from "../components/FlexComponent"
 
 function HomePage()
 {
@@ -13,8 +13,8 @@ function HomePage()
             <Header/>
             <div className="home">
                 {
-                    mock.videos.map(item =>
-                        <VideoCart key={item.id} data={item} isMute={isMute} setIsMute={setIsMute} isPlaying={isPlaying} setIsPlaying={setIsPlaying}/>,
+                    mock.contents.map(data =>
+                        <FlexComponent key={data.id} data={data} isMute={isMute} setIsMute={setIsMute} isPlaying={isPlaying} setIsPlaying={setIsPlaying}/>,
                     )
                 }
             </div>

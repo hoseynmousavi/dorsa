@@ -4,4 +4,7 @@
   background-size: 100%;
   min-height: var(--full-height);
   background-color: var(--first-background-color);
+  display: flex;
+  flex-direction: column;
+  gap: var(--mobile-second-solid-padding);
 }
