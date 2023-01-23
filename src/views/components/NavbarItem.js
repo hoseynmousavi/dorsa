@@ -1,13 +1,16 @@
 import Material from "../../seyed-modules/components/Material"
+import Link from "../../seyed-modules/components/Link"
 
-function NavbarItem({Icon, title, isHome, isActive, ActiveIcon})
+function NavbarItem({Icon, title, isHome, link, location})
 {
-    const ShowIcon = isActive ? ActiveIcon : Icon
+    const isActive = link === location
     return (
-        <Material className={`navbar-content-item ${isHome ? "home-icon" : ""}`}>
-            <ShowIcon className={`navbar-content-item-icon ${isHome ? "home-icon" : ""}`}/>
-            <div className={`navbar-content-item-title ${isActive ? "" : "hide"}`}>{title}</div>
-        </Material>
+        <Link to={link}>
+            <Material className={`navbar-content-item ${isHome ? "home-icon" : ""}`}>
+                <Icon className={`navbar-content-item-icon ${isActive ? "active" : ""} ${isHome ? "home-icon" : ""}`}/>
+                <div className={`navbar-content-item-title ${isActive ? "" : "hide"}`}>{title}</div>
+            </Material>
+        </Link>
     )
 }
 

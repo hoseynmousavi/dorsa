@@ -7,24 +7,8 @@
 }
 
 .video-cart-view {
-  height: 24px;
-  position: absolute;
   top: 32px;
   inset-inline-end: 32px;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  border-radius: var(--first-radius);
-  color: var(--solid-light);
-  font-size: var(--small-font);
-  font-family: "my-font-demibold", serif;
-  padding: 3px 7px;
-}
-
-.video-cart-view-icon {
-  width: 14px;
-  height: 14px;
-  margin-inline-start: 4px;
 }
 
 .video-cart-content {
@@ -45,36 +29,4 @@
   flex-grow: 1;
   font-family: "my-font-demibold", serif;
   font-size: var(--title-font);
-}
-
-.video-cart-content-like {
-  min-width: 90px;
-  width: 90px;
-  color: var(--second-text-color);
-  font-family: "my-font-demibold", serif;
-  font-size: var(--title-font);
-  margin-top: -4px;
-  margin-inline-end: -8px;
-
-  &.liked {
-    path {
-      fill: var(--danger-color);
-    }
-  }
-}
-
-.video-cart-content-like-material {
-  display: flex;
-  align-items: center;
-  margin-inline-start: auto;
-  padding: 4px 8px;
-  border-radius: var(--first-radius);
-  cursor: pointer;
-}
-
-.video-cart-content-like-icon {
-  min-width: 16px;
-  width: 16px;
-  height: 16px;
-  margin-inline-start: 4px;
 }

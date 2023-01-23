@@ -1,0 +1,27 @@
+.like-count {
+  min-width: 76px;
+  color: var(--second-text-color);
+  font-family: "my-font-demibold", serif;
+  font-size: var(--title-font);
+  margin-top: -4px;
+  margin-inline-end: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4px 8px;
+  border-radius: var(--first-radius);
+  cursor: pointer;
+
+  &.liked {
+    path {
+      fill: var(--danger-color);
+    }
+  }
+}
+
+.like-count-icon {
+  min-width: 16px;
+  width: 16px;
+  height: 16px;
+  margin-inline-start: 4px;
+}

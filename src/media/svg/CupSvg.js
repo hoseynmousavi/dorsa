@@ -1,7 +1,7 @@
 function CupSvg({className})
 {
     return (
-        <svg className={className} viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg className={className} viewBox="0 0 28 28" fill="none">
             <g filter="url(#filter0_d_197_2632)">
                 <path d="M9.15002 23H19.15V22C19.15 20.9 18.25 20 17.15 20H11.15C10.05 20 9.15002 20.9 9.15002 22V23Z" fill="url(#paint0_linear_197_2632)"/>
                 <path d="M14 17C10.13 17 7 13.87 7 10V7C7 4.79 8.79 3 11 3H17C19.21 3 21 4.79 21 7V10C21 13.87 17.87 17 14 17Z" fill="url(#paint1_linear_197_2632)"/>

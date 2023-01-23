@@ -32,6 +32,7 @@ sed -i "s~TOAST_FAIL_BG~$REACT_APP_TOAST_FAIL_BG~g" build/index.html
 sed -i "s~TOAST_FAIL_TEXT~$REACT_APP_TOAST_FAIL_TEXT~g" build/index.html
 sed -i "s~FIRST_COLOR~$REACT_APP_FIRST_COLOR~g" build/index.html
 sed -i "s~SECOND_COLOR~$REACT_APP_SECOND_COLOR~g" build/index.html
+sed -i "s~FIRST_SUB_COLOR~$REACT_APP_FIRST_SUB_COLOR~g" build/index.html
 sed -i "s~DISABLE_BG_COLOR~$REACT_APP_DISABLE_BG_COLOR~g" build/index.html
 sed -i "s~DISABLE_TEXT_COLOR~$REACT_APP_DISABLE_TEXT_COLOR~g" build/index.html
 sed -i "s~TRANSITION_METHOD~$REACT_APP_TRANSITION_METHOD~g" build/index.html

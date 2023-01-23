@@ -1,8 +1,9 @@
 const urlConstant = {
     home: "/",
-    login: "/login",
-
-    loginCode: phone => `/login/code/${phone}`,
+    multiMedia: "/multimedia",
+    apps: "/apps",
+    contest: "/contest",
+    account: "/account",
 }
 
 export default urlConstant

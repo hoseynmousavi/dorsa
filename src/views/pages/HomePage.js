@@ -11,7 +11,7 @@ function HomePage()
     return (
         <>
             <Header/>
-            <div className="home">
+            <div className="timeline">
                 {
                     mock.contents.map(data =>
                         <FlexComponent key={data.id} data={data} isMute={isMute} setIsMute={setIsMute} isPlaying={isPlaying} setIsPlaying={setIsPlaying}/>,

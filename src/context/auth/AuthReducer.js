@@ -3,7 +3,6 @@ import {LOGOUT, SET_USER} from "./AuthTypes"
 import AuthActions from "./AuthActions"
 import logoutManager from "../../seyed-modules/helpers/logoutManager"
 import cookieHelper from "../../seyed-modules/helpers/cookieHelper"
-import parseQueryString from "../../seyed-modules/helpers/parseQueryString"
 import LoadingWrapper from "../../seyed-modules/components/LoadingWrapper"
 
 export const AuthContext = createContext(null)
@@ -20,7 +19,6 @@ function reducer(state, action)
         {
             const {user: userArg} = action.payload
             const user = {...state, ...userArg}
-            if (user?.user?.email?.endsWith("@null.com")) user.user.email = null
             saveUserToDisk(user)
             return user
         }
@@ -68,14 +66,6 @@ function AuthProvider({children})
 
     useEffect(() =>
     {
-        const {token: queryToken, refreshToken: queryRefreshToken, childId: queryChildId} = parseQueryString()
-        if (queryToken && queryRefreshToken && queryChildId)
-        {
-            cookieHelper.setItem("token", queryToken)
-            cookieHelper.setItem("refreshToken", queryRefreshToken)
-            cookieHelper.setItem("selectedChildUserId", queryChildId)
-        }
-
         const token = cookieHelper.getItem("token")
         const refreshToken = cookieHelper.getItem("refreshToken")
         if (token && refreshToken)

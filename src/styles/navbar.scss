@@ -31,6 +31,7 @@
   justify-content: center;
   border-radius: 50%;
   flex-direction: column;
+  cursor: pointer;
 
   &.home-icon {
     margin-top: calc(-1 * var(--full-viewport) / 5.6 * 0.25);
@@ -44,22 +45,51 @@
   height: 40%;
   fill: var(--solid-light);
   font-size: var(--small-font);
-  color: var(--third-text-color);
+
+  path {
+    fill: var(--solid-light);
+    transition: fill var(--transition-method) 0.5s;
+  }
+
+  .home-icon-circle {
+    fill: var(--first-color);
+    transition: fill var(--transition-method) 0.5s;
+  }
+
+  &.active {
+    path {
+      fill: var(--second-color);
+    }
+  }
 
   &.home-icon {
     min-height: 68%;
     height: 68%;
+    margin-bottom: 2px;
+
+    &.active {
+      path {
+        fill: var(--solid-light);
+      }
+
+      .home-icon-circle {
+        fill: var(--second-color);
+      }
+    }
   }
 }
 
 .navbar-content-item-title {
   overflow: hidden;
   font-family: "my-font-demibold", serif;
-  color: var(--solid-light);
+  color: var(--first-sub-color);
   margin-top: 2px;
+  height: 23px;
+  transition: height var(--first-transition), margin-top var(--first-transition), opacity var(--first-transition);
 
   &.hide {
     height: 0;
     margin-top: 0;
+    opacity: 0;
   }
 }

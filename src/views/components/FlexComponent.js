@@ -6,30 +6,16 @@ import ArticleCart from "./ArticleCart"
 function FlexComponent({data, isMute, setIsMute, isPlaying, setIsPlaying})
 {
     const {type} = data || {}
+    let Component
 
-    if (type === "video")
+    if (type === "video") Component = VideoCart
+    else if (type === "movies") Component = MovieList
+    else if (type === "games") Component = GamesList
+    else if (type === "article") Component = ArticleCart
+
+    if (Component)
     {
-        return (
-            <VideoCart data={data} isMute={isMute} setIsMute={setIsMute} isPlaying={isPlaying} setIsPlaying={setIsPlaying}/>
-        )
-    }
-    else if (type === "movies")
-    {
-        return (
-            <MovieList data={data}/>
-        )
-    }
-    else if (type === "games")
-    {
-        return (
-            <GamesList data={data}/>
-        )
-    }
-    else if (type === "article")
-    {
-        return (
-            <ArticleCart data={data}/>
-        )
+        return <Component data={data} isMute={isMute} setIsMute={setIsMute} isPlaying={isPlaying} setIsPlaying={setIsPlaying}/>
     }
 }
 

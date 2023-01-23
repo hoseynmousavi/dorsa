@@ -1,19 +1,15 @@
 import ImageShow from "../../seyed-modules/components/ImageShow"
 import ArticleSvg from "../../media/svg/ArticleSvg"
-import Material from "../../seyed-modules/components/Material"
-import createMaterialColor from "../../seyed-modules/helpers/createMaterialColor"
-import showNumber from "../../helpers/showNumber"
-import LikeSvg from "../../media/svg/LikeSvg"
-import EyeSvg from "../../media/svg/EyeSvg"
+import ViewCount from "./ViewCount"
+import LikeCount from "./LikeCount"
 
 function ArticleCart({data: {title, desc, poster, date, likes_count, is_liked, views_count}})
 {
     return (
         <div className="article-cart">
-            <ImageShow className="article-cart-poster" src={poster}/>
-            <div className="article-cart-view">
-                {showNumber(views_count)}
-                <EyeSvg className="video-cart-view-icon"/>
+            <div className="article-cart-poster">
+                <ImageShow className="article-cart-poster-img" src={poster}/>
+                <ViewCount className="article-cart-poster-view" views_count={views_count}/>
             </div>
             <div className="article-cart-detail">
                 <div className="article-cart-detail-title">
@@ -25,12 +21,7 @@ function ArticleCart({data: {title, desc, poster, date, likes_count, is_liked, v
                 </div>
                 <div className="article-cart-detail-footer">
                     <div className="article-cart-detail-footer-date">{date}</div>
-                    <div className={`video-cart-content-like ${is_liked ? "liked" : ""}`}>
-                        <Material className="video-cart-content-like-material" backgroundColor={!is_liked && createMaterialColor({variable: "--danger-color"})}>
-                            {showNumber(likes_count)}
-                            <LikeSvg className="video-cart-content-like-icon"/>
-                        </Material>
-                    </div>
+                    <LikeCount likes_count={likes_count} is_liked={is_liked}/>
                 </div>
             </div>
         </div>

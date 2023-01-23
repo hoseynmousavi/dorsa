@@ -8,7 +8,6 @@ import AuthProvider from "./context/auth/AuthReducer"
 import changeColorVariablesConstant from "./constant/changeColorVariablesConstant"
 import request from "./seyed-modules/request/request"
 import AuthActions from "./context/auth/AuthActions"
-import offlineSending from "./constant/offlineSending"
 import changeFontVariablesConstant from "./constant/changeFontVariablesConstant"
 import LanguageProvider from "./seyed-modules/context/language/LanguageReducer"
 
@@ -28,8 +27,6 @@ root.render(
 
 request.init({
     refreshFunc: AuthActions.getTokenWithRefreshToken,
-    offlineSendingArr: offlineSending,
-    // makeBaseOnEnvFunc
 })
 
 registerSW()

@@ -8,10 +8,19 @@
 }
 
 .article-cart-poster {
+  position: relative;
+  margin-inline-end: 12px;
+}
+
+.article-cart-poster-img {
   width: 112px;
   height: 112px;
   border-radius: var(--second-radius);
-  margin-inline-end: 12px;
+}
+
+.article-cart-poster-view {
+  bottom: 8px;
+  inset-inline-end: 8px;
 }
 
 .article-cart-detail {
@@ -59,19 +68,4 @@
 .article-cart-detail-footer-date {
   color: var(--second-text-color);
   font-size: var(--small-font);
-}
-
-.article-cart-view {
-  height: 24px;
-  position: absolute;
-  top: 96px;
-  inset-inline-start: 58px;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  border-radius: var(--first-radius);
-  color: var(--solid-light);
-  font-size: var(--small-font);
-  font-family: "my-font-demibold", serif;
-  padding: 3px 7px;
 }
