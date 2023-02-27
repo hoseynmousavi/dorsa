@@ -6,10 +6,19 @@ import Material from "../../seyed-modules/components/Material"
 import PauseSvg from "../../media/svg/PauseSvg"
 import VolumeMuteSvg from "../../media/svg/VolumeMuteSvg"
 import VolumeHighSvg from "../../media/svg/VolumeHighSvg"
+import goOutOfFullScreen from "../../helpers/goOutOfFullScreen"
+import goFullScreen from "../../helpers/goFullScreen"
+import FullScreenSvg from "../../media/svg/FullScreenSvg"
+import LockSvg from "../../media/svg/LockSvg"
 
-function MyPlayer({id = "local", url, poster, className, setVideoRef, showInFullScreen, isMute: isMuteExternal, setIsMute: setIsMuteExternal, isPlaying: isPlayingExternal, setIsPlaying: setIsPlayingExternal})
+function MyPlayer({
+                      id = "local", url, poster, className, setVideoRef,
+                      playFullScreen, showInFullScreen, isMute: isMuteExternal, setIsMute: setIsMuteExternal,
+                      isPlaying: isPlayingExternal, setIsPlaying: setIsPlayingExternal,
+                      title,
+                  })
 {
-    const [isMuteLocal, setIsMuteLocal] = useState(true)
+    const [isMuteLocal, setIsMuteLocal] = useState(!playFullScreen)
     const [isPlayingLocal, setIsPlayingLocal] = useState(null)
 
     const isMute = isMuteExternal !== undefined ? isMuteExternal : isMuteLocal
@@ -21,7 +30,8 @@ function MyPlayer({id = "local", url, poster, className, setVideoRef, showInFull
     // const [hideControls, setHideControls] = useState(true)
     // const hideTimer = useRef(null)
     const [isLoading, setIsLoading] = useState(true)
-    // const isFullScreenRef = useRef(false)
+    const [isFullScreen, setIsFullScreen] = useState(false)
+    const isFullScreenRef = useRef(false)
     const loadedWell = useRef(false)
     const video = useRef(null)
     const videoRef = useRef(null)
@@ -37,16 +47,13 @@ function MyPlayer({id = "local", url, poster, className, setVideoRef, showInFull
 
     function onFullChange()
     {
-        // isFullScreenRef.current = !isFullScreenRef.current
-        // if (!isFullScreenRef.current)
-        // {
-        //     goOutOfFullScreen({playerRef, videoCont})
-        //     hideControlsFunc()
-        // }
-        // else
-        // {
-        //     showControlsFunc()
-        // }
+        isFullScreenRef.current = !isFullScreenRef.current
+        setIsFullScreen(isFullScreen => !isFullScreen)
+
+        if (!isFullScreenRef.current)
+        {
+            goOutOfFullScreen({playerRef, videoCont})
+        }
     }
 
     function runScripts()
@@ -112,6 +119,7 @@ function MyPlayer({id = "local", url, poster, className, setVideoRef, showInFull
         {
             if (video.current.paused || video.current.ended)
             {
+                if (playFullScreen && !isFullScreen) goFull()
                 setIsPlaying(id)
                 // showControlsFunc()
             }
@@ -141,19 +149,17 @@ function MyPlayer({id = "local", url, poster, className, setVideoRef, showInFull
         }
     }
 
-    // function toggleFullScreen()
-    // {
-    //     if (loadedWell.current)
-    //     {
-    //         if (isFullScreenRef.current)
-    //         {
-    //             if (document.exitFullscreen) document.exitFullscreen()
-    //             else if (document.webkitExitFullscreen) document.webkitExitFullscreen()
-    //             else if (document.msExitFullscreen) document.msExitFullscreen()
-    //         }
-    //         else goFullScreen({playerRef, videoCont})
-    //     }
-    // }
+    function goFull()
+    {
+        goFullScreen({playerRef, videoCont})
+    }
+
+    function exitFull()
+    {
+        if (document.exitFullscreen) document.exitFullscreen()
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen()
+        else if (document.msExitFullscreen) document.msExitFullscreen()
+    }
 
     // function showControlsFunc()
     // {
@@ -213,16 +219,34 @@ function MyPlayer({id = "local", url, poster, className, setVideoRef, showInFull
                              }}
                 />
 
-                <Material className={`video-volume-material ${!isPlaying ? "hide" : ""}`} onClick={toggleSound}>
-                    <div className="video-volume">
-                        {
-                            isMute ?
-                                <VolumeMuteSvg className="video-volume-icon"/>
-                                :
-                                <VolumeHighSvg className="video-volume-icon"/>
-                        }
+                {
+                    isFullScreen &&
+                    <div className="video-header">
+                        <div className="video-header-second">
+                            <Material className="video-header-second-btn">
+                                <LockSvg className="video-header-second-btn-icon"/>
+                            </Material>
+                            <Material className="video-header-second-btn" onClick={exitFull}>
+                                <FullScreenSvg className="video-header-second-btn-icon"/>
+                            </Material>
+                        </div>
+                        <div className="video-header-title">{title}</div>
                     </div>
-                </Material>
+                }
+
+                {
+                    !playFullScreen &&
+                    <Material className={`video-volume-material ${!isPlaying ? "hide" : ""}`} onClick={toggleSound}>
+                        <div className="video-volume">
+                            {
+                                isMute ?
+                                    <VolumeMuteSvg className="video-volume-icon"/>
+                                    :
+                                    <VolumeHighSvg className="video-volume-icon"/>
+                            }
+                        </div>
+                    </Material>
+                }
 
                 <div className={`video-controls ${!isPlaying ? "hide" : ""}`}>
                     <div className="video-progress">

@@ -8,7 +8,7 @@ function FlexComponent({data, isMute, setIsMute, isPlaying, setIsPlaying})
     const {type} = data || {}
     let Component
 
-    if (type === "video") Component = VideoCart
+    if (type === "video" || type === "audio") Component = VideoCart
     else if (type === "movies") Component = MovieList
     else if (type === "games") Component = GamesList
     else if (type === "article") Component = ArticleCart

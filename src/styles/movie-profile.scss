@@ -1,0 +1,207 @@
+.movie-profile {
+  min-height: var(--full-height);
+  background-color: var(--first-background-color);
+}
+
+.movie-profile-header {
+  background-color: #191944;
+  padding: 8px var(--mobile-second-solid-padding) 32px;
+  border-radius: 0 0 var(--forth-radius) var(--forth-radius);
+}
+
+.movie-profile-header-back {
+  margin-inline-start: -12px;
+  padding: 8px 12px;
+  border-radius: var(--first-radius);
+  font-family: "my-font-demibold", serif;
+  font-size: var(--title-font);
+  color: var(--solid-light);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.movie-profile-header-back-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.movie-profile-player {
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.movie-profile-detail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.movie-profile-detail-title {
+  font-size: var(--big-font);
+  font-family: "my-font-bold", serif;
+  color: var(--solid-light);
+}
+
+.movie-profile-detail-rate {
+  font-size: var(--large-font);
+  font-family: "my-font-demibold", serif;
+  color: var(--solid-light);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.movie-profile-detail-rate-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.movie-profile-desc {
+  margin-top: 20px;
+  font-size: var(--small-font);
+  color: var(--solid-light);
+  line-height: var(--first-line-height);
+  text-align: justify;
+  text-align-last: start;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 24px;
+}
+
+.movie-profile-content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.movie-profile-content-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.movie-profile-content-item-icon {
+  width: 16px;
+  height: 16px;
+
+  &.age {
+    height: 20px;
+  }
+}
+
+.movie-profile-content-item-title {
+  font-size: var(--small-font);
+  font-family: "my-font-demibold", serif;
+  color: var(--solid-light);
+}
+
+.movie-profile-bookmark {
+  width: calc(100% - 2 * var(--mobile-second-solid-padding));
+  margin: 32px var(--mobile-second-solid-padding);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.movie-profile-bookmark-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.movie-profile-album {
+}
+
+.movie-profile-album-title {
+  font-size: var(--large-font);
+  font-family: "my-font-bold", serif;
+  color: #000029;
+  margin-inline-start: var(--mobile-second-solid-padding);
+}
+
+.movie-profile-album-list {
+  padding: 0 var(--mobile-second-solid-padding);
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.movie-profile-album-list-item {
+  vertical-align: top;
+  display: inline-block;
+  aspect-ratio: 178 / 100;
+  width: 178px;
+  margin-inline-end: 16px;
+  border-radius: var(--second-radius);
+
+  &:last-child {
+    margin-inline-end: 0;
+  }
+}
+
+.movie-profile-movies {
+  padding: var(--mobile-second-solid-padding);
+  background-color: #F3F4F8;
+}
+
+.movie-profile-rate {
+  background-color: var(--second-background-color);
+  border-radius: var(--forth-radius);
+  box-shadow: 0px 4px 11px rgba(60, 40, 104, 0.1), inset 0px -4px 11px rgba(60, 40, 104, 0.05);
+  margin: 40px var(--mobile-second-solid-padding);
+  height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.movie-profile-rate-title {
+  font-size: var(--title-font);
+  font-family: "my-font-demibold", serif;
+  color: #382764;
+}
+
+.movie-profile-rate-detail {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.movie-profile-rate-detail-item {
+  width: 24px;
+  height: 24px;
+}
+
+.movie-profile-comments {
+  padding: 0 var(--mobile-second-solid-padding);
+}
+
+.movie-profile-comments-title {
+  font-size: var(--large-font);
+  font-family: "my-font-bold", serif;
+  color: #000029;
+  margin-bottom: 24px;
+}
+
+.movie-profile-comments-area {
+  background-color: #F3F4F8;
+  border-radius: var(--second-radius);
+  padding: 16px 20px;
+  height: 120px;
+  resize: none;
+  display: block;
+  width: 100%;
+
+  &:placeholder-shown {
+    color: #AFAFAF;
+  }
+}
+
+.movie-profile-comments-btn {
+  margin: 24px 0 80px;
+}

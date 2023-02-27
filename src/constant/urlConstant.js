@@ -4,6 +4,10 @@ const urlConstant = {
     apps: "/apps",
     contest: "/contest",
     account: "/account",
+
+    movieProfile: "/movie/profile",
+
+    login: "/login",
 }
 
 export default urlConstant

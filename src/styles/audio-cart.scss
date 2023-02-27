@@ -1,0 +1,49 @@
+.audio-cart {
+  background-color: var(--box-color);
+  border-radius: var(--forth-radius);
+  box-shadow: 0 4px 11px rgba(60, 40, 104, 0.1), inset 0px -4px 11px rgba(60, 40, 104, 0.05);
+  padding: 16px;
+  position: relative;
+}
+
+.audio-cart-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.audio-cart-main-img-cont {
+  position: relative;
+}
+
+.audio-cart-main-img {
+  width: 112px;
+  height: 112px;
+  border-radius: var(--second-radius);
+}
+
+.audio-cart-main-content {
+
+}
+
+.audio-cart-main-content-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--title-font);
+  font-family: "my-font-bold", serif;
+}
+
+.audio-cart-main-content-title-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.audio-cart-footer {
+  margin-top: 16px;
+  margin-bottom: -8px;
+  padding-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid #F7F7F7;
+}

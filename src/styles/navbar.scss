@@ -6,6 +6,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transform: translate3d(0, 0, 0);
+  transition: transform ease 0.2s;
+
+  &.hide {
+    transform: translate3d(0, 100%, 0);
+  }
 }
 
 .navbar-back {

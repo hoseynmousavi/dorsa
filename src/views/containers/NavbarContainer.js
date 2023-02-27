@@ -13,8 +13,10 @@ function NavbarContainer()
 {
     const {textConstant} = GetTextConstant()
     const {location} = GetCurrentLocation()
+    const hide = !(location === urlConstant.multiMedia || location === urlConstant.apps || location === urlConstant.home || location === urlConstant.contest || location === urlConstant.account)
+
     return (
-        <nav className="navbar">
+        <nav className={`navbar ${hide ? "hide" : ""}`}>
             <NavbarBackSvg className="navbar-back"/>
             <div className="navbar-content">
                 <NavbarItem Icon={VideoSvg}

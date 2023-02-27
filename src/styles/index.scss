@@ -1,6 +1,7 @@
 @import "../seyed-modules/styles/index";
 
 @import "animations";
+@import "vertical-panel";
 @import "button";
 @import "validation-error";
 @import "view-count";
@@ -14,6 +15,10 @@
 @import "movie-cart";
 @import "game-cart";
 @import "article-cart";
+@import "login";
+@import "movie-profile";
+@import "comment";
+@import "audio-cart";
 
 @font-face {
   font-family: "my-font";

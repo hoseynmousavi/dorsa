@@ -1,13 +1,26 @@
 const faTextConstant = {
-    loginTitle: "ورود به کُنجد",
-    loginDesc: "برای ورود به کنجد شماره تلفن همراه خود را وارد کنید",
-    phonePlaceholder: "شماره تلفن همراه",
-    send: "ارسال",
     multiMedia: "چندرسانه‌ای",
     apps: "برنامه‌ها",
     home: "خانه",
     contest: "مسابقه",
     account: "حساب",
+
+    enterPhone: "شماره موبایلت رو وارد کن!",
+    phoneHolder: "شماره تلفن همراه",
+    send: "ارسال",
+    enterOtp: "کد فعالسازی رو وارد کن!",
+    otpSentTo: phone => `کد به شماره ${phone} ارسال شد`,
+    dontGetCode: "کد بهت نرسیده؟",
+    sendGain: "دوباره ارسال کن",
+
+    back: "بازگشت",
+
+    watchLater: "بعدا میبینم",
+    album: "آلبوم تصاویر",
+    rateThis: "به این فیلم امتیاز بده!",
+    userComments: "نظرات کاربران",
+    commentHolder: "نظر خود را درباره این فیلم بنویسید",
+    submitComment: "ثبت نظر",
 }
 
 export default faTextConstant
