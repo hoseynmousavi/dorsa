@@ -8,12 +8,22 @@ import GetTextConstant from "../../seyed-modules/hooks/GetTextConstant"
 import AccountSvg from "../../media/svg/AccountSvg"
 import urlConstant from "../../constant/urlConstant"
 import GetCurrentLocation from "../../seyed-modules/hooks/GetCurrentLocation"
+import {useContext} from "react"
+import {AuthContext} from "../../context/auth/AuthReducer"
 
 function NavbarContainer()
 {
+    const {state: user} = useContext(AuthContext)
     const {textConstant} = GetTextConstant()
     const {location} = GetCurrentLocation()
-    const hide = !(location === urlConstant.multiMedia || location === urlConstant.apps || location === urlConstant.home || location === urlConstant.contest || location === urlConstant.account)
+    const hide = !(
+        location === urlConstant.multiMedia ||
+        location === urlConstant.apps ||
+        location === urlConstant.home ||
+        location === urlConstant.contest ||
+        location === urlConstant.account ||
+        location === urlConstant.profile
+    )
 
     return (
         <nav className={`navbar ${hide ? "hide" : ""}`}>
@@ -42,7 +52,7 @@ function NavbarContainer()
                 />
                 <NavbarItem Icon={AccountSvg}
                             title={textConstant.account}
-                            link={urlConstant.account}
+                            link={user ? urlConstant.profile : urlConstant.account}
                             location={location}
                 />
             </div>

@@ -5,25 +5,26 @@ import cookieHelper from "../../seyed-modules/helpers/cookieHelper"
 
 const base = process.env.REACT_APP_REST_URL
 
-function sendOtp({mobile, cancel})
+function sendOtp({data: {phone_number}, cancel})
 {
-    return request.post({base, url: apiUrlsConstant.sendOtp, data: {mobile}, cancel})
+    return request.post({base, url: apiUrlsConstant.login, data: {phone_number}, cancel})
 }
 
-function loginOrSignup({mobile, code, dispatch})
+function loginOrSignup({data: {phone_number, code}, dispatch})
 {
-    return request.post({base, url: apiUrlsConstant.sendOtp, data: {mobile, code}})
-        .then(res =>
+    return request.post({base, url: apiUrlsConstant.login, data: {phone_number, code}})
+        .then(({user, access_token, refresh_token, created}) =>
         {
-            const {insertInstant, lastUpdateInstant} = res.user
-            setUser({user: res, dispatch})
-            return ({isSignUp: insertInstant === lastUpdateInstant})
+            cookieHelper.setItem("token", access_token)
+            cookieHelper.setItem("refreshToken", refresh_token)
+            localStorage.setItem("user", JSON.stringify(user))
+            setUser({user, dispatch})
         })
 }
 
 function getUser({dispatch})
 {
-    return request.get({base, url: apiUrlsConstant.getProfile, dontCache: true, dontToast: true})
+    return request.get({base, url: apiUrlsConstant.profile, dontCache: true, dontToast: true})
         .then(user =>
         {
             setUser({user, dispatch})

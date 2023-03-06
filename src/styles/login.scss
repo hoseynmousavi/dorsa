@@ -61,6 +61,8 @@
 }
 
 .opt-box {
+  direction: ltr;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,11 +70,26 @@
   margin: 20px auto 40px;
 }
 
+.opt-box-input {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  opacity: 0;
+}
+
 .opt-box-item {
   width: 56px;
   height: 56px;
   background-color: #F3F4F8;
   border-radius: var(--second-radius);
+  color: var(--first-text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "my-font-bold", serif;
+  font-size: var(--large-font);
 }
 
 .opt-modal {
@@ -86,6 +103,7 @@
   align-items: center;
   font-size: var(--large-font);
   margin-top: 40px;
+  cursor: pointer;
 }
 
 .opt-retry-first {

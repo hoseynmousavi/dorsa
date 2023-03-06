@@ -5,14 +5,37 @@ import Button from "../../seyed-modules/components/Button"
 import Material from "../../seyed-modules/components/Material"
 import createMaterialColor from "../../seyed-modules/helpers/createMaterialColor"
 import urlConstant from "../../constant/urlConstant"
+import numberCorrection from "../../seyed-modules/helpers/numberCorrection"
+import {useContext, useState} from "react"
+import authActions from "../../context/auth/AuthActions"
+import {AuthContext} from "../../context/auth/AuthReducer"
+import MyLoader from "../../seyed-modules/components/MyLoader"
 
-function OtpModal({close, phone})
+function OtpModal({close, phone, reSend, getOtpLoading})
 {
+    const {dispatch} = useContext(AuthContext)
     const {textConstant} = GetTextConstant()
+    const [code, setCode] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
-    function onSubmit()
+    function onChange(e)
     {
-        window.history.replaceState("", "", urlConstant.home)
+        const value = numberCorrection(e.target.value.trim())
+        setCode(value)
+        if (value.length === 5)
+        {
+            setIsLoading(true)
+            authActions.loginOrSignup({data: {phone_number: phone, code: value}, dispatch})
+                .then(() =>
+                {
+                    setIsLoading(false)
+                    window.history.replaceState("", "", urlConstant.home)
+                })
+                .catch(() =>
+                {
+                    setIsLoading(false)
+                })
+        }
     }
 
     return (
@@ -21,18 +44,26 @@ function OtpModal({close, phone})
             <h1 className="login-content-title">{textConstant.enterOtp}</h1>
             <div className="login-content-desc">{textConstant.otpSentTo(phone)}</div>
             <div className="opt-box">
-                <div className="opt-box-item"/>
-                <div className="opt-box-item"/>
-                <div className="opt-box-item"/>
-                <div className="opt-box-item"/>
-                <div className="opt-box-item"/>
+                <input className="opt-box-input" onChange={onChange} type="tel" maxLength={5} disabled={isLoading}/>
+                <div className="opt-box-item">{code[0]}</div>
+                <div className="opt-box-item">{code[1]}</div>
+                <div className="opt-box-item">{code[2]}</div>
+                <div className="opt-box-item">{code[3]}</div>
+                <div className="opt-box-item">{code[4]}</div>
             </div>
-            <Button className="login-content-btn" onClick={onSubmit}>
+            <Button className="login-content-btn" loading={isLoading}>
                 {textConstant.send}
             </Button>
-            <Material className="opt-retry" backgroundColor={createMaterialColor({variable: "--first-color"})}>
-                <div className="opt-retry-first">{textConstant.dontGetCode}</div>
-                <div className="opt-retry-second">{textConstant.sendGain}</div>
+            <Material className="opt-retry" backgroundColor={createMaterialColor({variable: "--first-color"})} onClick={reSend}>
+                {
+                    getOtpLoading ?
+                        <MyLoader width={20}/>
+                        :
+                        <>
+                            <div className="opt-retry-first">{textConstant.dontGetCode}</div>
+                            <div className="opt-retry-second">{textConstant.sendGain}</div>
+                        </>
+                }
             </Material>
         </VerticalPanel>
     )

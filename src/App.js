@@ -12,9 +12,8 @@ function App()
 {
     return (
         <div id="index-temp" className="index-temp">
-
             <Switch>
-                <Route path={urlConstant.movieProfile} render={() => <MovieProfilePage/>}/>
+                <Route path={urlConstant.movieProfile(":id")} render={route => <MovieProfilePage route={route}/>}/>
                 <Route path={urlConstant.account} render={() => <LoginPage/>}/>
                 <Route path={urlConstant.home} render={() => <HomePage/>}/>
             </Switch>

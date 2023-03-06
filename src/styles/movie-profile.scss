@@ -136,7 +136,20 @@
   aspect-ratio: 178 / 100;
   width: 178px;
   margin-inline-end: 16px;
+  cursor: pointer;
   border-radius: var(--second-radius);
+
+  &:last-child {
+    margin-inline-end: 0;
+  }
+}
+
+.movie-profile-album-list-item-character {
+  vertical-align: top;
+  display: inline-block;
+  width: 178px;
+  margin-inline-end: 16px;
+  cursor: pointer;
 
   &:last-child {
     margin-inline-end: 0;
@@ -204,4 +217,11 @@
 
 .movie-profile-comments-btn {
   margin: 24px 0 80px;
+}
+
+.movie-profile-comments-404 {
+  text-align: center;
+  padding: var(--mobile-second-solid-padding);
+  font-size: var(--title-font);
+  font-family: "my-font-demibold", serif;
 }

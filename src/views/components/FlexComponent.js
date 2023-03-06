@@ -1,17 +1,15 @@
 import VideoCart from "./VideoCart"
-import MovieList from "../containers/MovieList"
-import GamesList from "../containers/GamesList"
 import ArticleCart from "./ArticleCart"
 
 function FlexComponent({data, isMute, setIsMute, isPlaying, setIsPlaying})
 {
-    const {type} = data || {}
+    const {card_type: type} = data || {}
     let Component
 
-    if (type === "video" || type === "audio") Component = VideoCart
-    else if (type === "movies") Component = MovieList
-    else if (type === "games") Component = GamesList
-    else if (type === "article") Component = ArticleCart
+    if (type === "VI" || type === "AU") Component = VideoCart
+    else if (type === "AR") Component = ArticleCart
+    // else if (type === "movies") Component = MovieList
+    // else if (type === "games") Component = GamesList
 
     if (Component)
     {

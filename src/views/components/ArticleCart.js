@@ -2,14 +2,16 @@ import ImageShow from "../../seyed-modules/components/ImageShow"
 import ArticleSvg from "../../media/svg/ArticleSvg"
 import ViewCount from "./ViewCount"
 import LikeCount from "./LikeCount"
+import getImageLink from "../../helpers/getImageLink"
+import ActionLink from "./ActionLink"
 
-function ArticleCart({data: {title, desc, poster, date, likes_count, is_liked, views_count}})
+function ArticleCart({data: {id, title, description, poster, date, like_count, is_user_liked, view_count, action_destination}})
 {
     return (
-        <div className="article-cart">
+        <ActionLink to={action_destination} className="article-cart">
             <div className="article-cart-poster">
-                <ImageShow className="article-cart-poster-img" src={poster}/>
-                <ViewCount className="article-cart-poster-view" views_count={views_count}/>
+                <ImageShow className="article-cart-poster-img" src={getImageLink(poster)}/>
+                <ViewCount className="article-cart-poster-view" views_count={view_count}/>
             </div>
             <div className="article-cart-detail">
                 <div className="article-cart-detail-title">
@@ -17,14 +19,14 @@ function ArticleCart({data: {title, desc, poster, date, likes_count, is_liked, v
                     {title}
                 </div>
                 <div className="article-cart-detail-desc">
-                    {desc}
+                    {description}
                 </div>
                 <div className="article-cart-detail-footer">
                     <div className="article-cart-detail-footer-date">{date}</div>
-                    <LikeCount likes_count={likes_count} is_liked={is_liked}/>
+                    <LikeCount likes_count={like_count} is_liked={is_user_liked} id={id}/>
                 </div>
             </div>
-        </div>
+        </ActionLink>
     )
 }
 

@@ -154,8 +154,9 @@ function MyPlayer({
         goFullScreen({playerRef, videoCont})
     }
 
-    function exitFull()
+    function exitFull(e)
     {
+        e.stopPropagation()
         if (document.exitFullscreen) document.exitFullscreen()
         else if (document.webkitExitFullscreen) document.webkitExitFullscreen()
         else if (document.msExitFullscreen) document.msExitFullscreen()

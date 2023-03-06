@@ -4,8 +4,9 @@ const urlConstant = {
     apps: "/apps",
     contest: "/contest",
     account: "/account",
+    profile: "/profile",
 
-    movieProfile: "/movie/profile",
+    movieProfile: id => `/movie/profile/${id}`,
 
     login: "/login",
 }

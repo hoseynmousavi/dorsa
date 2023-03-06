@@ -1,0 +1,2 @@
+export const GET_MOVIE_ITEM = "GET_MOVIE_ITEM"
+export const BOOKMARK_ITEM = "BOOKMARK_ITEM"

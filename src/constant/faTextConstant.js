@@ -17,10 +17,24 @@ const faTextConstant = {
 
     watchLater: "بعدا میبینم",
     album: "آلبوم تصاویر",
+    characters: "شخصیت‌ها",
     rateThis: "به این فیلم امتیاز بده!",
     userComments: "نظرات کاربران",
     commentHolder: "نظر خود را درباره این فیلم بنویسید",
     submitComment: "ثبت نظر",
+
+    productCountries: "محصول ",
+    productAge: age => `مناسب ${age} سال به بالا`,
+
+    spaceHour: " ساعت",
+    spaceMinute: " دقیقه",
+    spaceSecond: " ثانیه",
+    oneQuarter: "یک ربع ساعت",
+    halfHour: "نیم ساعت",
+    emptyTime: "0 دقیقه",
+    and: " و ",
+
+    noComments: "هنوز نظری ثبت نشده.",
 }
 
 export default faTextConstant

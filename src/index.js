@@ -10,6 +10,8 @@ import request from "./seyed-modules/request/request"
 import AuthActions from "./context/auth/AuthActions"
 import changeFontVariablesConstant from "./constant/changeFontVariablesConstant"
 import LanguageProvider from "./seyed-modules/context/language/LanguageReducer"
+import TimelineProvider from "./context/timeline/timelineReducer"
+import MovieProvider from "./context/movie/movieReducer"
 
 const root = createRoot(document.getElementById("root"))
 
@@ -19,7 +21,11 @@ root.render(
     <LanguageProvider changeVariables={changeFontVariablesConstant}>
         <ThemeProvider changeVariables={changeColorVariablesConstant} disable={true}>
             <AuthProvider>
-                <WrappedApp/>
+                <TimelineProvider>
+                    <MovieProvider>
+                        <WrappedApp/>
+                    </MovieProvider>
+                </TimelineProvider>
             </AuthProvider>
         </ThemeProvider>
     </LanguageProvider>,

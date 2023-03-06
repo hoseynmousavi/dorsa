@@ -1,9 +1,13 @@
 const apiUrlsConstant = {
-    sendOtp: "auth/login",
-    logout: "auth/logout",
-    refreshToken: "auth/login/refresh",
-    getProfile: "auth/profile",
-    checkEmail: "auth/get-user-by-email",
+    login: "api/user/login",
+    profile: "api/user/profile",
+    timeline: "api/timeline",
+
+    bookmark: id => `api/post/${id}/bookmark`,
+
+    like: id => `api/timeline/${id}/like`,
+
+    movie: id => `api/video/${id}`,
 }
 
 export default apiUrlsConstant

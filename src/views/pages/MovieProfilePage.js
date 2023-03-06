@@ -2,26 +2,42 @@ import Material from "../../seyed-modules/components/Material"
 import ArrowSvg from "../../media/svg/ArrowSvg"
 import GetTextConstant from "../../seyed-modules/hooks/GetTextConstant"
 import MyPlayer from "../components/MyPlayer"
-import mock from "../../constant/mock"
 import StarSvg from "../../media/svg/StarSvg"
 import ClockSvg from "../../media/svg/ClockSvg"
 import LanguageSvg from "../../media/svg/LanguageSvg"
 import VideoHorizontalSvg from "../../media/svg/VideoHorizontalSvg"
 import AgeSvg from "../../media/svg/AgeSvg"
 import Button from "../../seyed-modules/components/Button"
-import BookmarkSvg from "../../media/svg/BookmarkSvg"
 import ImageShow from "../../seyed-modules/components/ImageShow"
-import MovieList from "../containers/MovieList"
 import RateStarSvg from "../../media/svg/RateStarSvg"
 import Comment from "../components/Comment"
-import avatar from "../../media/images/avatar.svg"
 import goBack from "../../seyed-modules/helpers/goBack"
+import {useContext, useEffect} from "react"
+import movieActions from "../../context/movie/movieActions"
+import {MovieContext} from "../../context/movie/movieReducer"
+import LoadingWrapper from "../../seyed-modules/components/LoadingWrapper"
+import getImageLink from "../../helpers/getImageLink"
+import MinuteToTime from "../../hooks/MinuteToTime"
+import mock from "../../constant/mock"
+import MovieList from "../containers/MovieList"
+import MovieBookmark from "../components/MovieBookmark"
 
-function MovieProfilePage()
+function MovieProfilePage({route: {match: {params: {id}}}})
 {
+    const {state: {list}, dispatch} = useContext(MovieContext)
+    const data = list[id]
+    const {characters, post, comments, user_bookmarked, thumbnail_image, title, description, streaming_link, duration_minutes, rate, min_age, gallery, countries, companies, main_languages} = data || {}
+    const isLoading = !data
     const {textConstant} = GetTextConstant()
-    const {profile: {poster, src, title, rate, desc, time, sound, age, company, product, gallery, also}} = mock
-    return (
+    const time = MinuteToTime({timeMinutes: duration_minutes, withLetter: true})
+
+    useEffect(() =>
+    {
+        movieActions.getMovieItem({data: {id}, dispatch})
+    }, [])
+
+    if (isLoading) return <LoadingWrapper haveBg/>
+    else return (
         <div className="movie-profile">
             <div className="movie-profile-header">
                 <div>
@@ -30,7 +46,7 @@ function MovieProfilePage()
                         <div>{textConstant.back}</div>
                     </Material>
                 </div>
-                <MyPlayer className="movie-profile-player" poster={poster} url={src} playFullScreen title={title}/>
+                <MyPlayer className="movie-profile-player" poster={getImageLink(thumbnail_image)} url={streaming_link} playFullScreen title={title}/>
                 <div className="movie-profile-detail">
                     <div className="movie-profile-detail-title">{title}</div>
                     <div className="movie-profile-detail-rate">
@@ -39,7 +55,7 @@ function MovieProfilePage()
                     </div>
                 </div>
                 <div className="movie-profile-desc">
-                    {desc}
+                    {description}
                 </div>
                 <div className="movie-profile-content">
                     <div className="movie-profile-content-item">
@@ -48,38 +64,51 @@ function MovieProfilePage()
                     </div>
                     <div className="movie-profile-content-item">
                         <LanguageSvg className="movie-profile-content-item-icon"/>
-                        <div className="movie-profile-content-item-title">{sound}</div>
+                        <div className="movie-profile-content-item-title">{main_languages.map(item => item.title).join("، ")}</div>
                     </div>
                     <div className="movie-profile-content-item">
                         <VideoHorizontalSvg className="movie-profile-content-item-icon"/>
-                        <div className="movie-profile-content-item-title">{product}</div>
+                        <div className="movie-profile-content-item-title">{textConstant.productCountries}{countries.map(item => item.name).join("، ")}</div>
                     </div>
                     <div className="movie-profile-content-item">
                         <VideoHorizontalSvg className="movie-profile-content-item-icon"/>
-                        <div className="movie-profile-content-item-title">{company}</div>
+                        <div className="movie-profile-content-item-title">{textConstant.productCountries}{companies.map(item => item.name).join("، ")}</div>
                     </div>
                     <div className="movie-profile-content-item">
                         <AgeSvg className="movie-profile-content-item-icon age"/>
-                        <div className="movie-profile-content-item-title">{age}</div>
+                        <div className="movie-profile-content-item-title">{textConstant.productAge(min_age)}</div>
                     </div>
                 </div>
             </div>
-            <Button className="movie-profile-bookmark">
-                <BookmarkSvg className="movie-profile-bookmark-icon"/>
-                {textConstant.watchLater}
-            </Button>
-            <div className="movie-profile-album">
-                <div className="movie-profile-album-title">{textConstant.album}</div>
-                <div className="movie-profile-album-list hide-scroll">
-                    {
-                        gallery.map((item, index) =>
-                            <ImageShow key={index} src={item} className="movie-profile-album-list-item" zoomable/>,
-                        )
-                    }
+            <MovieBookmark id={id} postId={post.id} user_bookmarked={user_bookmarked}/>
+            {
+                gallery?.length > 0 &&
+                <div className="movie-profile-album">
+                    <div className="movie-profile-album-title">{textConstant.album}</div>
+                    <div className="movie-profile-album-list hide-scroll">
+                        {
+                            gallery.map(({image}, index) =>
+                                <ImageShow key={index} src={getImageLink(image)} className="movie-profile-album-list-item" zoomable/>,
+                            )
+                        }
+                    </div>
                 </div>
-            </div>
+            }
+            {
+                characters?.length > 0 &&
+                <div className="movie-profile-album">
+                    <div className="movie-profile-album-title">{textConstant.characters}</div>
+                    <div className="movie-profile-album-list hide-scroll">
+                        {
+                            characters.map((item, index) =>
+                                <ImageShow key={index} src={getImageLink(item.character.avatar)} className="movie-profile-album-list-item-character" zoomable/>,
+                            )
+                        }
+                    </div>
+                </div>
+            }
             <div className="movie-profile-movies">
-                <MovieList data={also}/>
+                <MovieList data={mock.also}/>
             </div>
             <div className="movie-profile-rate">
                 <div className="movie-profile-rate-title">{textConstant.rateThis}</div>
@@ -97,36 +126,14 @@ function MovieProfilePage()
                 <Button className="movie-profile-comments-btn">
                     {textConstant.submitComment}
                 </Button>
-                <Comment name="فرمان فتحعلیان"
-                         avatar={avatar}
-                         date="۳ روز پیش"
-                         rate={4}
-                         desc="خیلی عالی بود، قسمت گیتارش رو دوست داشتم، لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم، ‌لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم"
-                />
-                <Comment name="فرمان فتحعلیان"
-                         avatar={avatar}
-                         date="۳ روز پیش"
-                         rate={4}
-                         desc="خیلی عالی بود، قسمت گیتارش رو دوست داشتم، لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم، ‌لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم"
-                />
-                <Comment name="فرمان فتحعلیان"
-                         avatar={avatar}
-                         date="۳ روز پیش"
-                         rate={4}
-                         desc="خیلی عالی بود، قسمت گیتارش رو دوست داشتم، لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم، ‌لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم"
-                />
-                <Comment name="فرمان فتحعلیان"
-                         avatar={avatar}
-                         date="۳ روز پیش"
-                         rate={4}
-                         desc="خیلی عالی بود، قسمت گیتارش رو دوست داشتم، لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم، ‌لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم"
-                />
-                <Comment name="فرمان فتحعلیان"
-                         avatar={avatar}
-                         date="۳ روز پیش"
-                         rate={4}
-                         desc="خیلی عالی بود، قسمت گیتارش رو دوست داشتم، لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم، ‌لورم ایپسوم دولور سیت آمت متن نمونه برای تصاویر گرافیکی کامنت درباره فیلم"
-                />
+                {
+                    comments?.length > 0 ?
+                        comments.map(data =>
+                            <Comment key={data.id} data={data}/>,
+                        )
+                        :
+                        <div className="movie-profile-comments-404">{textConstant.noComments}</div>
+                }
             </div>
         </div>
     )

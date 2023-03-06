@@ -1,9 +1,8 @@
-import {createContext, useEffect, useReducer, useState} from "react"
+import {createContext, useEffect, useReducer} from "react"
 import {LOGOUT, SET_USER} from "./AuthTypes"
 import AuthActions from "./AuthActions"
 import logoutManager from "../../seyed-modules/helpers/logoutManager"
 import cookieHelper from "../../seyed-modules/helpers/cookieHelper"
-import LoadingWrapper from "../../seyed-modules/components/LoadingWrapper"
 
 export const AuthContext = createContext(null)
 
@@ -17,14 +16,17 @@ function reducer(state, action)
     {
         case SET_USER:
         {
-            const {user: userArg} = action.payload
-            const user = {...state, ...userArg}
-            saveUserToDisk(user)
-            return user
+            const {user} = action.payload
+            return {
+                ...state,
+                ...user,
+            }
         }
         case LOGOUT:
         {
-            saveUserToDisk(null)
+            cookieHelper.removeItem("token")
+            cookieHelper.removeItem("refreshToken")
+            localStorage.clear()
             return init()
         }
         default:
@@ -34,59 +36,27 @@ function reducer(state, action)
     }
 }
 
-function saveUserToDisk(user)
-{
-    if (user)
-    {
-        if (user.token)
-        {
-            cookieHelper.setItem("token", user.token)
-            delete user.token
-        }
-        if (user.refreshToken)
-        {
-            cookieHelper.setItem("refreshToken", user.refreshToken)
-            delete user.refreshToken
-        }
-        localStorage.setItem("user", JSON.stringify(user))
-    }
-    else
-    {
-        cookieHelper.removeItem("token")
-        cookieHelper.removeItem("refreshToken")
-        cookieHelper.removeItem("selectedChildUserId")
-        localStorage.clear()
-    }
-}
-
 function AuthProvider({children})
 {
-    const [isLogging, setIsLogging] = useState(false)
     const [state, dispatch] = useReducer(reducer, initialState, init)
 
     useEffect(() =>
     {
         const token = cookieHelper.getItem("token")
         const refreshToken = cookieHelper.getItem("refreshToken")
-        if (token && refreshToken)
+        const user = localStorage.getItem("user")
+        if (token && refreshToken && user)
         {
-            const user = localStorage.getItem("user")
-            if (user)
+            try
             {
-                try
-                {
-                    AuthActions.setUser({user: JSON.parse(user), dispatch})
-                }
-                catch (e)
-                {
-                    console.log("err parsing user:", e.message)
-                }
+                AuthActions.setUser({user: JSON.parse(user), dispatch})
             }
-            else setIsLogging(true)
+            catch (e)
+            {
+                console.log("err parsing user:", e.message)
+            }
 
             AuthActions.getUser({dispatch})
-                .then(() => setIsLogging(false))
-                .catch(() => setIsLogging(false))
         }
 
         logoutManager.setLogOut({callBack: () => dispatch({type: LOGOUT})})
@@ -94,12 +64,7 @@ function AuthProvider({children})
 
     return (
         <AuthContext.Provider value={{state, dispatch}}>
-            {
-                isLogging ?
-                    <LoadingWrapper haveBg/>
-                    :
-                    children
-            }
+            {children}
         </AuthContext.Provider>
     )
 }

@@ -8,3 +8,11 @@
   flex-direction: column;
   gap: var(--mobile-second-solid-padding);
 }
+
+.timeline-loading {
+  min-height: 100%;
+  height: calc(var(--full-height) - var(--header-height) - var(--mobile-second-solid-padding) - var(--nav-height) - var(--mobile-second-solid-padding));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
