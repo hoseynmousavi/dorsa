@@ -1,4 +1,4 @@
-import request from "../../seyed-modules/request/request"
+import request from "../../modules/request/request"
 import apiUrlsConstant from "../../constant/apiUrlsConstant"
 import {BOOKMARK_ITEM, GET_MOVIE_ITEM} from "./movieTypes"
 

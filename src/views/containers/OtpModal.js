@@ -1,15 +1,15 @@
 import VerticalPanel from "../components/VerticalPanel"
 import Login1Svg from "../../media/svg/Login1Svg"
-import GetTextConstant from "../../seyed-modules/hooks/GetTextConstant"
-import Button from "../../seyed-modules/components/Button"
-import Material from "../../seyed-modules/components/Material"
-import createMaterialColor from "../../seyed-modules/helpers/createMaterialColor"
+import GetTextConstant from "../../modules/hooks/GetTextConstant"
+import Button from "../../modules/components/Button"
+import Material from "../../modules/components/Material"
+import createMaterialColor from "../../modules/helpers/createMaterialColor"
 import urlConstant from "../../constant/urlConstant"
-import numberCorrection from "../../seyed-modules/helpers/numberCorrection"
+import numberCorrection from "../../modules/helpers/numberCorrection"
 import {useContext, useState} from "react"
 import authActions from "../../context/auth/AuthActions"
 import {AuthContext} from "../../context/auth/AuthReducer"
-import MyLoader from "../../seyed-modules/components/MyLoader"
+import MyLoader from "../../modules/components/MyLoader"
 
 function OtpModal({close, phone, reSend, getOtpLoading})
 {

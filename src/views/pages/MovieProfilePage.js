@@ -1,21 +1,21 @@
-import Material from "../../seyed-modules/components/Material"
+import Material from "../../modules/components/Material"
 import ArrowSvg from "../../media/svg/ArrowSvg"
-import GetTextConstant from "../../seyed-modules/hooks/GetTextConstant"
+import GetTextConstant from "../../modules/hooks/GetTextConstant"
 import MyPlayer from "../components/MyPlayer"
 import StarSvg from "../../media/svg/StarSvg"
 import ClockSvg from "../../media/svg/ClockSvg"
 import LanguageSvg from "../../media/svg/LanguageSvg"
 import VideoHorizontalSvg from "../../media/svg/VideoHorizontalSvg"
 import AgeSvg from "../../media/svg/AgeSvg"
-import Button from "../../seyed-modules/components/Button"
-import ImageShow from "../../seyed-modules/components/ImageShow"
+import Button from "../../modules/components/Button"
+import ImageShow from "../../modules/components/ImageShow"
 import RateStarSvg from "../../media/svg/RateStarSvg"
 import Comment from "../components/Comment"
-import goBack from "../../seyed-modules/helpers/goBack"
+import goBack from "../../modules/helpers/goBack"
 import {useContext, useEffect} from "react"
 import movieActions from "../../context/movie/movieActions"
 import {MovieContext} from "../../context/movie/movieReducer"
-import LoadingWrapper from "../../seyed-modules/components/LoadingWrapper"
+import LoadingWrapper from "../../modules/components/LoadingWrapper"
 import getImageLink from "../../helpers/getImageLink"
 import MinuteToTime from "../../hooks/MinuteToTime"
 import mock from "../../constant/mock"
@@ -34,6 +34,7 @@ function MovieProfilePage({route: {match: {params: {id}}}})
     useEffect(() =>
     {
         movieActions.getMovieItem({data: {id}, dispatch})
+        // eslint-disable-next-line
     }, [])
 
     if (isLoading) return <LoadingWrapper haveBg/>

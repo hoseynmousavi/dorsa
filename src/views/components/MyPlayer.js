@@ -1,15 +1,14 @@
 import ReactPlayer from "react-player"
 import {useRef, useState} from "react"
-import MyLoader from "../../seyed-modules/components/MyLoader"
+import MyLoader from "../../modules/components/MyLoader"
 import PlaySvg from "../../media/svg/PlaySvg"
-import Material from "../../seyed-modules/components/Material"
+import Material from "../../modules/components/Material"
 import PauseSvg from "../../media/svg/PauseSvg"
 import VolumeMuteSvg from "../../media/svg/VolumeMuteSvg"
 import VolumeHighSvg from "../../media/svg/VolumeHighSvg"
-import goOutOfFullScreen from "../../helpers/goOutOfFullScreen"
-import goFullScreen from "../../helpers/goFullScreen"
 import FullScreenSvg from "../../media/svg/FullScreenSvg"
 import LockSvg from "../../media/svg/LockSvg"
+import formatTime from "../../helpers/formatTime"
 
 function MyPlayer({
                       id = "local", url, poster, className, setVideoRef,
@@ -20,39 +19,36 @@ function MyPlayer({
 {
     const [isMuteLocal, setIsMuteLocal] = useState(!playFullScreen)
     const [isPlayingLocal, setIsPlayingLocal] = useState(null)
-
     const isMute = isMuteExternal !== undefined ? isMuteExternal : isMuteLocal
     const setIsMute = setIsMuteExternal !== undefined ? setIsMuteExternal : setIsMuteLocal
-
     const isPlaying = isPlayingExternal !== undefined ? isPlayingExternal === id : isPlayingLocal === id
     const setIsPlaying = setIsMuteExternal !== undefined ? setIsPlayingExternal : setIsPlayingLocal
-
-    // const [hideControls, setHideControls] = useState(true)
-    // const hideTimer = useRef(null)
-    const [isLoading, setIsLoading] = useState(true)
+    const [hideControls, setHideControls] = useState(true)
+    const hideTimer = useRef(null)
+    const [isLocked, setIsLocked] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [isFullScreen, setIsFullScreen] = useState(false)
     const isFullScreenRef = useRef(false)
     const loadedWell = useRef(false)
     const video = useRef(null)
     const videoRef = useRef(null)
     const videoCont = useRef(null)
-    const playerRef = useRef(null)
-    // const timeElapse = useRef(null)
-    // const durationRef = useRef(null)
     const seekRef = useRef(null)
     const seekLoadedRef = useRef(null)
     const seekSeenRef = useRef(null)
     const seekSliderRef = useRef(null)
     const maxRef = useRef(null)
+    const timeElapse = useRef(null)
+    const durationRef = useRef(null)
 
     function onFullChange()
     {
         isFullScreenRef.current = !isFullScreenRef.current
         setIsFullScreen(isFullScreen => !isFullScreen)
-
         if (!isFullScreenRef.current)
         {
-            goOutOfFullScreen({playerRef, videoCont})
+            setIsPlaying(null)
+            setIsLocked(false)
         }
     }
 
@@ -77,7 +73,7 @@ function MyPlayer({
     {
         maxRef.current = videoDuration
         seekRef.current.setAttribute("max", videoDuration.toString())
-        // durationRef.current.innerText = formatTime(videoDuration)
+        durationRef.current.innerText = formatTime(videoDuration)
     }
 
     function waiting()
@@ -97,7 +93,7 @@ function MyPlayer({
         seekRef.current.value = currentTime
         seekSeenRef.current.style.width = currentTime / maxRef.current * 100 + "%"
         seekSliderRef.current.style.left = currentTime / maxRef.current * 100 + "%"
-        // timeElapse.current.innerText = formatTime(currentTime)
+        timeElapse.current.innerText = formatTime(currentTime)
         seekLoadedRef.current.style.width = videoRef.current.getSecondsLoaded() / maxRef.current * 100 + "%"
     }
 
@@ -115,20 +111,29 @@ function MyPlayer({
     function togglePlay(e)
     {
         if (e?.stopPropagation) e.stopPropagation()
-        if (loadedWell.current)
+        if (!isLocked)
         {
-            if (video.current.paused || video.current.ended)
+            if (loadedWell.current)
             {
-                if (playFullScreen && !isFullScreen) goFull()
-                setIsPlaying(id)
-                // showControlsFunc()
+                if (video.current.paused || video.current.ended)
+                {
+                    if (playFullScreen && !isFullScreen) goFull()
+                    setIsPlaying(id)
+                    showControlsFunc()
+                }
+                else
+                {
+                    if (playFullScreen)
+                    {
+                        if (hideControls) showControlsFunc()
+                        else setIsPlaying(null)
+                    }
+                    else setIsPlaying(null)
+                }
             }
-            else
-            {
-                setIsPlaying(null)
-                // hideControlsFunc()
-            }
+            else setTimeout(togglePlay, 50)
         }
+        else showControlsFunc()
     }
 
     function ignoreClick(e)
@@ -151,7 +156,15 @@ function MyPlayer({
 
     function goFull()
     {
-        goFullScreen({playerRef, videoCont})
+        if (videoCont.current.requestFullscreen) videoCont.current.requestFullscreen()
+        else if (videoCont.current.webkitRequestFullscreen) videoCont.current.webkitRequestFullscreen()
+        else if (videoCont.current.msRequestFullscreen) videoCont.current.msRequestFullscreen()
+    }
+
+    function toggleLock(e)
+    {
+        e.stopPropagation()
+        setIsLocked(isLocked => !isLocked)
     }
 
     function exitFull(e)
@@ -162,25 +175,25 @@ function MyPlayer({
         else if (document.msExitFullscreen) document.msExitFullscreen()
     }
 
-    // function showControlsFunc()
-    // {
-    //     setHideControls(false)
-    //     // clearTimeout(hideTimer.current)
-    //     // hideTimer.current = setTimeout(hideControlsFunc, 4000)
-    // }
+    function showControlsFunc()
+    {
+        setHideControls(false)
+        clearTimeout(hideTimer.current)
+        hideTimer.current = setTimeout(hideControlsFunc, 4000)
+    }
 
-    // function hideControlsFunc()
-    // {
-    //     // if (!video.current.paused && !video.current.ended)
-    //     // {
-    //     setHideControls(true)
-    //     clearTimeout(hideTimer.current)
-    //     // }
-    // }
+    function hideControlsFunc()
+    {
+        if (!video.current.paused && !video.current.ended)
+        {
+            setHideControls(true)
+            clearTimeout(hideTimer.current)
+        }
+    }
 
     return (
-        <div className={`player ${className}`} ref={playerRef}>
-            <div className="video-container" ref={videoCont} onClick={togglePlay}>
+        <div className={`player ${className}`}>
+            <div className={`video-container ${isFullScreen ? "full" : ""}`} ref={videoCont} onClick={togglePlay}>
                 {
                     isLoading ?
                         <MyLoader className="playback-loading" strokeWidth={2} width={32}/>
@@ -204,6 +217,7 @@ function MyPlayer({
                              className="my-player-video"
                              controlsList="nodownload"
                              volume={1}
+                             light={<img src={poster} style={{objectFit: "cover"}} width="100%" height="100%" alt="" loading="lazy" decoding="async"/>}
                              width="100%"
                              height="100%"
                              onDuration={initialize}
@@ -222,16 +236,16 @@ function MyPlayer({
 
                 {
                     isFullScreen &&
-                    <div className="video-header">
+                    <div className={`video-header ${hideControls ? "hide" : ""}`}>
                         <div className="video-header-second">
-                            <Material className="video-header-second-btn">
+                            <Material className="video-header-second-btn" onClick={toggleLock}>
                                 <LockSvg className="video-header-second-btn-icon"/>
                             </Material>
-                            <Material className="video-header-second-btn" onClick={exitFull}>
+                            <Material className={`video-header-second-btn ${isLocked ? "hide" : ""}`} onClick={exitFull}>
                                 <FullScreenSvg className="video-header-second-btn-icon"/>
                             </Material>
                         </div>
-                        <div className="video-header-title">{title}</div>
+                        <div className={`video-header-title ${isLocked ? "hide" : ""}`}>{title}</div>
                     </div>
                 }
 
@@ -249,17 +263,17 @@ function MyPlayer({
                     </Material>
                 }
 
-                <div className={`video-controls ${!isPlaying ? "hide" : ""}`}>
+                <div className={`video-controls ${playFullScreen ? "full" : ""} ${playFullScreen ? hideControls || isLocked ? "hide" : "" : !isPlaying ? "hide" : ""}`}>
                     <div className="video-progress">
                         <input className="seek" ref={seekRef} onInput={skipAhead} onClick={ignoreClick} defaultValue="0" min="0" type="range" step="1"/>
                         <div className="seek-seen loaded" ref={seekLoadedRef}/>
                         <div className="seek-seen" ref={seekSeenRef}/>
                         <div className="seek-slider" ref={seekSliderRef}/>
                     </div>
-                    {/*<div className="player-time">*/}
-                    {/*    <div ref={timeElapse}>{formatTime(0)}</div>*/}
-                    {/*    <div ref={durationRef}>{formatTime(0)}</div>*/}
-                    {/*</div>*/}
+                    <div className={`player-time ${playFullScreen ? "" : "hide"}`}>
+                        <div ref={timeElapse}>{formatTime(0)}</div>
+                        <div ref={durationRef}>{formatTime(0)}</div>
+                    </div>
                 </div>
                 {showInFullScreen && <div onClick={ignoreClick}>{showInFullScreen}</div>}
             </div>

@@ -2,10 +2,10 @@ import {useContext, useEffect, useState} from "react"
 import Header from "../containers/Header"
 import FlexComponent from "../components/FlexComponent"
 import timelineActions from "../../context/timeline/timelineActions"
-import MyLoader from "../../seyed-modules/components/MyLoader"
+import MyLoader from "../../modules/components/MyLoader"
 import {TimelineContext} from "../../context/timeline/timelineReducer"
 
-function HomePage()
+function HomePage({route: {isRendering}})
 {
     const {state: {list, getDone}, dispatch} = useContext(TimelineContext)
     const [isMute, setIsMute] = useState(true)
@@ -14,7 +14,16 @@ function HomePage()
     useEffect(() =>
     {
         timelineActions.getTimeline({dispatch})
+        // eslint-disable-next-line
     }, [])
+
+    useEffect(() =>
+    {
+        if (isRendering)
+        {
+            return () => setIsPlaying(null)
+        }
+    }, [isRendering])
 
     return (
         <>

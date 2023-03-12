@@ -10,6 +10,10 @@
   border-radius: var(--third-radius);
   overflow: hidden;
   background-color: var(--solid-dark);
+
+  &.full {
+    border-radius: 0;
+  }
 }
 
 .my-player-video {
@@ -61,6 +65,10 @@
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
   cursor: pointer;
   transition: opacity ease 0.3s 0.1s;
+
+  &.full {
+    padding-bottom: 16px;
+  }
 
   &.hide {
     opacity: 0;
@@ -162,6 +170,10 @@
   justify-content: space-between;
   color: var(--solid-light);
   user-select: none;
+
+  &.hide {
+    display: none;
+  }
 }
 
 .video-header {
@@ -173,12 +185,24 @@
   align-items: center;
   justify-content: space-between;
   padding: 24px;
+  transition: opacity ease 0.3s 0.1s;
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 .video-header-title {
   font-size: var(--big-font);
   font-family: "my-font-bold", serif;
   color: var(--solid-light);
+  transition: opacity ease 0.3s 0.1s;
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 .video-header-second {
@@ -196,6 +220,12 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: opacity ease 0.3s 0.1s;
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 .video-header-second-btn-icon {

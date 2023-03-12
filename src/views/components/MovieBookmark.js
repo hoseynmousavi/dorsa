@@ -1,12 +1,12 @@
 import BookmarkSvg from "../../media/svg/BookmarkSvg"
-import Button from "../../seyed-modules/components/Button"
+import Button from "../../modules/components/Button"
 import movieActions from "../../context/movie/movieActions"
 import {useContext, useState} from "react"
 import {MovieContext} from "../../context/movie/movieReducer"
-import GetTextConstant from "../../seyed-modules/hooks/GetTextConstant"
+import GetTextConstant from "../../modules/hooks/GetTextConstant"
 import BookmarkedSvg from "../../media/svg/BookmarkedSvg"
-import toastManager from "../../seyed-modules/helpers/toastManager"
-import {SUCCESS_TOAST} from "../../seyed-modules/constant/toastTypes"
+import toastManager from "../../modules/helpers/toastManager"
+import {SUCCESS_TOAST} from "../../modules/constant/toastTypes"
 
 function MovieBookmark({user_bookmarked, id, postId})
 {

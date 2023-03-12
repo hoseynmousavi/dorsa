@@ -13,7 +13,7 @@ function VideoCart({data: {id, title, poster, like_count, is_user_liked, view_co
             <ViewCount className="video-cart-view" views_count={view_count}/>
             <div className="video-cart-content">
                 <VideoIconSvg className="video-cart-content-icon"/>
-                <ActionLink to={id ==="7fd99734-da7e-49d1-9455-e810cc65dcd2" ? "/movie/profile/855bb081-83bc-4986-a84f-98ea7ed78d9f" :action_destination} className="video-cart-content-title">
+                <ActionLink to={action_destination} className="video-cart-content-title">
                     {title}
                 </ActionLink>
                 <LikeCount is_liked={is_user_liked} likes_count={like_count} id={id}/>

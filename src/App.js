@@ -1,11 +1,10 @@
-import ThemeColorBar from "./seyed-modules/components/ThemeColorBar"
-import Switch from "./seyed-modules/components/Switch"
+import ThemeColorBar from "./modules/components/ThemeColorBar"
+import Switch from "./modules/components/Switch"
 import urlConstant from "./constant/urlConstant"
-import Route from "./seyed-modules/components/Route"
-import ToastContainer from "./seyed-modules/components/ToastContainer"
+import Route from "./modules/components/Route"
+import ToastContainer from "./modules/components/ToastContainer"
 import HomePage from "./views/pages/HomePage"
 import NavbarContainer from "./views/containers/NavbarContainer"
-import LoginPage from "./views/pages/LoginPage"
 import MovieProfilePage from "./views/pages/MovieProfilePage"
 
 function App()
@@ -14,11 +13,10 @@ function App()
         <div id="index-temp" className="index-temp">
             <Switch>
                 <Route path={urlConstant.movieProfile(":id")} render={route => <MovieProfilePage route={route}/>}/>
-                <Route path={urlConstant.account} render={() => <LoginPage/>}/>
-                <Route path={urlConstant.home} render={() => <HomePage/>}/>
+                <Route path={urlConstant.home} render={route => <HomePage route={route}/>}/>
             </Switch>
-            <NavbarContainer/>
 
+            <NavbarContainer/>
             <ThemeColorBar/>
             <ToastContainer/>
         </div>

@@ -1,5 +1,5 @@
 import SearchSvg from "../../media/svg/SearchSvg"
-import Material from "../../seyed-modules/components/Material"
+import Material from "../../modules/components/Material"
 import MenuSvg from "../../media/svg/MenuSvg"
 import {useContext, useState} from "react"
 import MenuBackSvg from "../../media/svg/MenuBackSvg"

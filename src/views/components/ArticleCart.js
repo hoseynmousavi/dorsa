@@ -1,4 +1,4 @@
-import ImageShow from "../../seyed-modules/components/ImageShow"
+import ImageShow from "../../modules/components/ImageShow"
 import ArticleSvg from "../../media/svg/ArticleSvg"
 import ViewCount from "./ViewCount"
 import LikeCount from "./LikeCount"

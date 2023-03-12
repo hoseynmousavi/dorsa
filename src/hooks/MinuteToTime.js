@@ -1,5 +1,5 @@
 import fixTimeFormat from "../helpers/fixTimeFormat"
-import GetTextConstant from "../seyed-modules/hooks/GetTextConstant"
+import GetTextConstant from "../modules/hooks/GetTextConstant"
 
 function MinuteToTime(input)
 {

@@ -1,7 +1,7 @@
 import {SET_USER} from "./AuthTypes"
-import request from "../../seyed-modules/request/request"
+import request from "../../modules/request/request"
 import apiUrlsConstant from "../../constant/apiUrlsConstant"
-import cookieHelper from "../../seyed-modules/helpers/cookieHelper"
+import cookieHelper from "../../modules/helpers/cookieHelper"
 
 const base = process.env.REACT_APP_REST_URL
 

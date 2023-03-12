@@ -8,6 +8,7 @@ const urlConstant = {
 
     movieProfile: id => `/movie/profile/${id}`,
 
+    loginPhone: "/login-phone",
     login: "/login",
 }
 

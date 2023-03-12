@@ -1,8 +1,8 @@
 import {createContext, useEffect, useReducer} from "react"
 import {LOGOUT, SET_USER} from "./AuthTypes"
 import AuthActions from "./AuthActions"
-import logoutManager from "../../seyed-modules/helpers/logoutManager"
-import cookieHelper from "../../seyed-modules/helpers/cookieHelper"
+import logoutManager from "../../modules/helpers/logoutManager"
+import cookieHelper from "../../modules/helpers/cookieHelper"
 
 export const AuthContext = createContext(null)
 

@@ -1,5 +1,5 @@
-import Material from "../../seyed-modules/components/Material"
-import createMaterialColor from "../../seyed-modules/helpers/createMaterialColor"
+import Material from "../../modules/components/Material"
+import createMaterialColor from "../../modules/helpers/createMaterialColor"
 import showNumber from "../../helpers/showNumber"
 import LikeSvg from "../../media/svg/LikeSvg"
 import timelineActions from "../../context/timeline/timelineActions"
